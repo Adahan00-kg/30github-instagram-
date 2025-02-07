@@ -62,3 +62,20 @@ class LogoutView(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+
+class NetworkCreateAPIView(generics.CreateAPIView):
+    serializer_class = NetworkPostSerializer
+
+class UserProfileRetrieveAPIView(generics.RetrieveAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileAllListSerializer
+
+
+class UserProfileUpdatedAPIView(generics.RetrieveUpdateAPIView):
+    serializer_class = UserProfileAllPutSerializer
+    queryset = UserProfile.objects.all()
+
+
+class UserProfileListAPIView(generics.ListAPIView):
+    serializer_class = UserProfileListSerializer
+    queryset = UserProfile.objects.all()

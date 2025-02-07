@@ -8,7 +8,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = ['username', 'email', 'password','first_name', 'last_name',
-        'phone_number','date_register','profile_picture','status_acc','age']
+        'phone_number','profile_picture','status_acc','age']
 
 
         extra_kwargs = {'password': {'write_only': True}}
@@ -46,3 +46,33 @@ class LoginSerializer(serializers.Serializer):
 
 class LogoutSerializer(serializers.Serializer):
     access = serializers.CharField()
+
+
+
+class NetworkPostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Network
+        fields = ['network_name','network_link',
+                  'user_connect']
+
+
+class UserProfileAllListSerializer(serializers.ModelSerializer):
+    network = NetworkPostSerializer(many=True)
+    class Meta:
+        model = UserProfile
+        fields = ['username', 'email',  'first_name', 'last_name',
+                  'phone_number', 'profile_picture', 'status_acc', 'age',
+                  'bio', 'gender','network']
+
+
+class UserProfileAllPutSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['username', 'email','first_name', 'last_name',
+                  'phone_number', 'profile_picture', 'status_acc', 'age', 'bio', 'gender']
+
+
+class UserProfileListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['id','username','profile_picture']
