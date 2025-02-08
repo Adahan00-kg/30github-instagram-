@@ -52,7 +52,7 @@ class LogoutSerializer(serializers.Serializer):
 class NetworkPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Network
-        fields = ['network_name','network_link',
+        fields = ['id','network_name','network_link',
                   'user_connect']
 
 
