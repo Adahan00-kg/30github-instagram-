@@ -8,6 +8,13 @@ from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
 
 
+from rest_framework import generics, status
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
+from .serializers import LogoutSerializer
+
+
 
 class RegisterView(generics.CreateAPIView):
     serializer_class = UserProfileSerializer
@@ -43,24 +50,22 @@ class CustomLoginView(TokenObtainPairView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class LogoutView(APIView):
+class LogoutView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = LogoutSerializer
+
     def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        refresh_token = serializer.validated_data.get("refresh_token")
+
         try:
-            refresh_token = request.data.get("refresh_token")
-            if not refresh_token:
-                return Response({"error": "Refresh-токен отсутствует"}, status=status.HTTP_400_BAD_REQUEST)
-
-            # Добавляем refresh-токен в черный список
-            try:
-                token = RefreshToken(refresh_token)
-                token.blacklist()  # Это сработает только если включен Blacklist
-            except TokenError:
-                return Response({"error": "Недействительный токен"}, status=status.HTTP_400_BAD_REQUEST)
-
-            return Response({"message": "Вы успешно вышли"}, status=status.HTTP_205_RESET_CONTENT)
-
-        except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return Response({"detail": "Вы успешно вышли"}, status=status.HTTP_205_RESET_CONTENT)
+        except Exception:
+            return Response({"detail": "Невалидный или уже аннулированный токен"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class NetworkCreateAPIView(generics.CreateAPIView):

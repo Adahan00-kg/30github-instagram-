@@ -48,7 +48,6 @@ class LogoutSerializer(serializers.Serializer):
     access = serializers.CharField()
 
 
-
 class NetworkPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Network
