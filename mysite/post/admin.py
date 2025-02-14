@@ -1,14 +1,10 @@
 from django.contrib import admin
-from .models import Post, PostContent
+from .models import PostTitle,PostImg,Comment,LikeComment,LikePosst
+
+admin.site.register(PostTitle)
+admin.site.register(PostImg)
+admin.site.register(Comment)
+admin.site.register(LikeComment)
+admin.site.register(LikePosst)
 
 
-class ContentInline(admin.TabularInline):
-    model = PostContent
-    extra = 0
-
-
-class PostAdmin(admin.ModelAdmin):
-    inlines = [ContentInline]
-
-
-admin.site.register(Post,PostAdmin)

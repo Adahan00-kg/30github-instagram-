@@ -3,38 +3,24 @@ from .models import *
 from register_user.serializers import UserProfileListSerializer
 
 
-
-class PostContentPostSerializer(serializers.ModelSerializer):
+class PosImgSerializer(serializers.ModelSerializer):
     class Meta:
-        model = PostContent
-        fields = ['img']
+        model = PostImg
+        fields = ['post_img1','post_img2','post_img3','post_img4','post_img5',
+                  'post_img6','post_img7','post_img8','post_img9','post_img10','author']
 
-class PostContentListSerializer(serializers.ModelSerializer):
+
+class PostTitleSerializer(serializers.ModelSerializer):
     class Meta:
-        model = PostContent
-        fields = ['id','img']
+        model = PostTitle
+        fields = ['post_connect','text']
 
-class PostCreateSerializer(serializers.ModelSerializer):
-    post = PostContentListSerializer(many=True, write_only=True)
 
+class PostTitleListSerializer(serializers.ModelSerializer):
+    post_connect = PosImgSerializer()
     class Meta:
-        model = Post
-        fields = ['description', 'author', 'post']
+        model = PostTitle
+        fields = ['id','post_connect','text','created_date']
 
-    def create(self, validated_data):
-        post_content_data = validated_data.pop('post', [])  # Извлекаем вложенные изображения
-        post = Post.objects.create(**validated_data)  # Создаем сам пост
 
-        # Создаем изображения, связанные с этим постом
-        for content in post_content_data:
-            PostContent.objects.create(post_connect=post, **content)
-
-        return post
-
-class PostListSerializer(serializers.ModelSerializer):
-    post = PostContentListSerializer(many=True)
-    author = UserProfileListSerializer()
-    class Meta:
-        model = Post
-        fields = ['id','author','created_date','description','post']
 
