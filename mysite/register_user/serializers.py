@@ -4,6 +4,7 @@ from .models import *
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 
+
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
@@ -57,18 +58,27 @@ class NetworkPostSerializer(serializers.ModelSerializer):
 
 class UserProfileAllListSerializer(serializers.ModelSerializer):
     network = NetworkPostSerializer(many=True)
+    post = serializers.SerializerMethodField()
     class Meta:
         model = UserProfile
         fields = ['username', 'email',  'first_name', 'last_name',
                   'phone_number', 'profile_picture', 'status_acc', 'age',
-                  'bio', 'gender','network']
+                  'bio', 'gender','network','post']
+
+    def get_post(self, obj):
+        from post.serializer import PostTitleListSerializer  # Локальный импорт, чтобы избежать циклического импорта
+        posts = obj.post_user.all()  # Django автоматически создаёт `related_name` как `<model_name>_set`
+        return PostTitleListSerializer(posts, many=True).data
+
 
 
 class UserProfileAllPutSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = UserProfile
         fields = ['username', 'email','first_name', 'last_name',
-                  'phone_number', 'profile_picture', 'status_acc', 'age', 'bio', 'gender']
+                  'phone_number', 'profile_picture',
+                  'status_acc', 'age', 'bio', 'gender','post']
 
 
 class UserProfileListSerializer(serializers.ModelSerializer):

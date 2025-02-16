@@ -8,5 +8,19 @@ urlpatterns = [
 
     path('post_list/',PostTitleListAPIView.as_view(),name = 'post_list'),
 
-    path('post_delete/',PostDeleteAPIView.as_view(),name = 'post_delete')
+    path('post_delete/<int:pk>/',PostDeleteAPIView.as_view(),name = 'post_delete'),
+
+    path('comment_create/',CommentCreateAPIView.as_view(),name = 'comment_create'),
+
+    path('comment_delete/<int:pk>/',CommentDeleteAPIView.as_view(),name = 'comment_delete'),
+
+    path('like_comment/create/',LikeCommentCreateAPIView.as_view(),name = 'like_comment'),
+
+    path('like_comment/update/<int:pk>/',LikeCommentUpdateAPIView.as_view(),name = 'like_comment_update'),
+
+    path('like_post/create/',PostLikeAPIView.as_view(),name = 'like_post'),
+
+    path('like_post/update/<int:pk>/',PostLikeUpdateAPIView.as_view(),name = 'like_post_update'),
+
 ]
+
