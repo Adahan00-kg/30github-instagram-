@@ -78,9 +78,9 @@ class UserProfileAllPutSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = ['username', 'email','first_name', 'last_name',
                   'phone_number', 'profile_picture',
-                  'status_acc', 'age', 'bio', 'gender','post']
+                  'status_acc', 'age', 'bio', 'gender']
 
-
+########################
 class UserProfileListSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
