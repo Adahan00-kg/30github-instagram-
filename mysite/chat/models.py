@@ -10,6 +10,9 @@ class UserProfile(AbstractUser):
     def str(self):
         return self.username
 
+class Group(models.Model):
+    group_name = models.CharField(max_length=150)
+
 
 class Chat(models.Model):
     person = models.ManyToManyField(UserProfile)
@@ -23,3 +26,5 @@ class Message(models.Model):
     image = models.ImageField(upload_to='message_image', null=True, blank=True)
     video = models.FileField(upload_to='message_video', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
