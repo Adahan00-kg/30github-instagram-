@@ -2,26 +2,15 @@ import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
 from .models import Chat, Message
-from mysite.register_user.models import UserProfile
-
+from register_user.models import UserProfile
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        """ Подключение к личному чату """
-        self.user = self.scope["user"]
         self.chat_id = self.scope["url_route"]["kwargs"]["chat_id"]
-
-        # Проверяем, является ли пользователь участником чата
-        self.chat = await sync_to_async(Chat.objects.get)(id=self.chat_id)
-        if self.user not in [self.chat.user1, self.chat.user2]:
-            await self.close()
-            return
-
-        self.room_name = f"chat_{self.chat_id}"
-
-        # Присоединяемся к личному чату
-        await self.channel_layer.group_add(self.room_name, self.channel_name)
+        self.chat, created = await sync_to_async(Chat.objects.get_or_create)(id=self.chat_id)
         await self.accept()
+
+
 
     async def disconnect(self, close_code):
         """ Отключение от чата """

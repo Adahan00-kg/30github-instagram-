@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'chat',
 
     'channels',
+    'daphne',
 
 ##
 ]
@@ -94,7 +95,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
-ASGI_APPLICATION = 'mysite.asgi.application'
+ASGI_APPLICATION = "mysite.asgi.application"
+
 
 
 CHANNEL_LAYERS = {
