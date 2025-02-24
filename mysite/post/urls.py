@@ -22,5 +22,6 @@ urlpatterns = [
 
     path('like_post/update/<int:pk>/',PostLikeUpdateAPIView.as_view(),name = 'like_post_update'),
 
+    path('like/',PostLikeAPIView.as_view(),name = 'lkdlw')
 ]
 
