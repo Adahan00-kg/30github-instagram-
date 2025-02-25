@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from asgiref.sync import sync_to_async
 from .models import Chat, Message
 from register_user.models import UserProfile  # Импортируем кастомную модель пользователя
+from rest_framework import serializers
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
