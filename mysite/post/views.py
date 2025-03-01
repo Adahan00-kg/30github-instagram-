@@ -20,6 +20,11 @@ class PostDeleteAPIView(generics.DestroyAPIView):
     serializer_class = PostTitleSerializer
     queryset = PostTitle.objects.all()
 
+class PostDetailListAPIView(generics.RetrieveAPIView):
+    serializer_class = PostDetailSerializer
+    queryset = PostTitle.objects.all()
+
+
 class CommentCreateAPIView(generics.CreateAPIView):
     serializer_class = CommentCreateSerializer
 

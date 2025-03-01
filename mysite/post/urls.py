@@ -10,6 +10,8 @@ urlpatterns = [
 
     path('post_delete/<int:pk>/',PostDeleteAPIView.as_view(),name = 'post_delete'),
 
+    path('post_detail/<int:pk>/',PostDetailListAPIView.as_view(),name = 'post_detail'),
+
     path('comment_create/',CommentCreateAPIView.as_view(),name = 'comment_create'),
 
     path('comment_delete/<int:pk>/',CommentDeleteAPIView.as_view(),name = 'comment_delete'),

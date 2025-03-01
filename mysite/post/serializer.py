@@ -4,6 +4,17 @@ from .models import *
 
 from register_user.serializers import UserProfileListSerializer
 
+class CommentListSerializer(serializers.ModelSerializer):
+    count_like = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Comment
+        fields = ['id','author','text','created_date',
+                  'parent_review','post','count_like']
+
+
+    def get_count_like(self,obj):
+        return obj.get_count_like()
 
 
 class PosImgSerializer(serializers.ModelSerializer):
@@ -19,23 +30,26 @@ class PostTitleSerializer(serializers.ModelSerializer):
         fields = ['id','post_connect','text','author']
 
 
+class PostDetailSerializer(serializers.ModelSerializer):
+    comment = CommentListSerializer(many=True)
+    post_connect = PosImgSerializer()
+    author = UserProfileListSerializer()
+    count_like = serializers.SerializerMethodField()
+
+    class Meta:
+        model = PostTitle
+        fields = ['id', 'author', 'post_connect', 'text', 'created_date', 'comment', 'count_like']
+
+    def get_count_like(self, obj):
+        return obj.get_count_like()
+
+
 class CommentCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ['id','author','text','parent_review','post']
 
 
-class CommentListSerializer(serializers.ModelSerializer):
-    count_like = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Comment
-        fields = ['id','author','text','created_date',
-                  'parent_review','post','count_like']
-
-
-    def get_count_like(self,obj):
-        return obj.get_count_like()
 
 
 class PostTitleListSerializer(serializers.ModelSerializer):

@@ -13,7 +13,7 @@ class Chat(models.Model):
 
     def __str__(self):
         return f"Chat between {self.user1} and {self.user2}"
-пше 
+
 class Message(models.Model):
     """Модель сообщений в чате"""
     chat = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name="messages")

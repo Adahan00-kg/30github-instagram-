@@ -15,6 +15,10 @@ class PostImg(models.Model):
     post_img10 = models.FileField(upload_to='post_img',null=True,blank=True)
 
 
+    def __str__(self):
+        return f'{self.post_img1}'
+
+
 class PostTitle(models.Model):
     post_connect = models.ForeignKey(PostImg, on_delete=models.CASCADE, related_name='post_img_connect')
     text = models.TextField(null=True, blank=True)
