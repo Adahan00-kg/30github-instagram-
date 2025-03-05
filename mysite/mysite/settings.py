@@ -60,6 +60,8 @@ INSTALLED_APPS = [
     'channels',
     # 'daphne',
 
+    'stories'
+
 ##
 ]
 
