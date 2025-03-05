@@ -6,3 +6,7 @@ class Stories(models.Model):
     stories_content = models.FileField(upload_to='content_stories')
     created_date = models.DateTimeField(auto_now_add=True)
 
+class StoriesLike(models.Model):
+    author = models.ForeignKey(UserProfile,on_delete=models.CASCADE)
+    like = models.BooleanField(default=False)
+
